@@ -9,17 +9,11 @@ Users can create tasks through:
 * **Add Task Form**: Manual task creation with fields for task name, description, priority, assignee, and meeting details.
 * **AI Assistant**: Natural language task creation, guided by AI prompts to ensure all task details are captured.
 
-<p align="center">
-  <video width="640" controls>
-    <source src="https://github.com/user-attachments/assets/99755b1c-260c-467e-963a-a2b3c4f7248c">
-    Your browser does not support the video tag.
-  </video>
-</p>
-
 ## Screenshot
 
 <p align="center">
-  <img src="docs/screenshots/dashboard.png" alt="SmartCue Dashboard" width="100%" />
+-  <img src="docs/screenshots/dashboard.png" alt="SmartCue Dashboard" width="100%" />
++  <img src="frontend/public/dashboard.png" alt="SmartCue Dashboard" width="100%" />
   <br/>
   <em>SmartCue Dashboard – Task overview and quick actions</em>
   
@@ -84,6 +78,14 @@ Users can create tasks through:
 * **npm** for package management
 * **Git** for version control
 
+## Use Cases
+
+1. **Project Management**: Manage tasks, assign responsibilities, and track progress with GitHub synchronization.
+2. **Meeting Scheduling**: Schedule and visualize meetings tied to tasks.
+3. **AI-Driven Task Creation**: Quickly create tasks using natural language.
+4. **Cross-Platform Collaboration**: Seamlessly manage tasks across technical and non-technical teams.
+5. **Efficient Workflow**: Custom MCP servers ensure reliable communication with external services.
+
 ## Setup
 
 ### Prerequisites
@@ -114,43 +116,25 @@ Users can create tasks through:
    pip install -r requirements.txt
    ```
 
-3. **Configure Environment Variables** (.env at project root):
+3. **Set Up the Database**:
 
-   ```env
-   # Database
-   DB_HOST=127.0.0.1
-   DB_PORT=5432
-   DB_NAME=smartcue
-   DB_USER=postgres
-   DB_PASSWORD=your_password
+   * Create a PostgreSQL database named `smartcue`.
+   * Run the initialization script:
 
-   # GitHub
-   REPO_NAME=your_github_username/your_repo
-   GITHUB_TOKEN=your_pat_with_repo_scope
+     ```bash
+     psql -U postgres -d smartcue -f backend/init_db.sql
+     ```
 
-   # AI
-   GEMINI_API_KEY=your_gemini_key
+4. **Configure Environment Variables**:
+   Create a `.env` file in the project root:
+5. **Set Up GitHub Webhook**:
 
-   # Feature flags (set to 1 to disable a service)
-   SKIP_GITHUB=0
-   SKIP_POSTGRES=0
-   SKIP_CALENDAR=0
-   SKIP_AI=0
-   ```
+   * Navigate to your GitHub repository settings.
+   * Go to **Settings > Webhooks > Add webhook**.
+   * Set the payload URL to `http://<your-backend-url>/webhooks`.
+   * Select `application/json` content type and issue events.
 
-   Notes:
-   * On Windows prefer `DB_HOST=127.0.0.1` over `localhost` to avoid IPv6 (::1) issues.
-   * Do not commit secrets. Use a local `.env` only.
-
-4. **(Optional) Set Up the Database**:
-
-   The app auto-creates the `tasks` table when DB is reachable. Or initialize manually:
-
-   ```bash
-   psql -h 127.0.0.1 -U postgres -d smartcue -f backend/init_db.sql
-   ```
-
-5. **Run the Backend** (from project root):
+6. **Run the Backend**:
 
    ```bash
    python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
@@ -193,12 +177,6 @@ Update `.env` to match (`DB_HOST=127.0.0.1`, `DB_PORT=5432`).
    npm install
    ```
 
-   If you see “react-scripts is not recognized”, ensure `react`, `react-dom` are 18.x and `react-scripts` is 5.x, then:
-
-   ```bash
-   npm install --save react@18.2.0 react-dom@18.2.0 react-scripts@5.0.1
-   ```
-
 3. **Run the Frontend**:
 
    ```bash
@@ -218,13 +196,12 @@ Update `.env` to match (`DB_HOST=127.0.0.1`, `DB_PORT=5432`).
 
 1. Click "Add New Task" on the dashboard.
 2. Fill in details like task name, description, priority, assignee, and optional meeting details.
-3. Submit the form.
-   * If Postgres is disabled or down, the GitHub issue will still be created, but `/tasks` will not list it.
+3. Submit the form to create the task, which also creates a GitHub issue and Google Calendar event.
 
 ### Create a Task with AI Assistant
 
 1. Navigate to the "AI Assistant" page.
-2. Enter a natural language prompt.
+a2. Enter a natural language prompt.
 3. Follow the AI’s guidance to confirm task creation.
 
 ### View Meetings
