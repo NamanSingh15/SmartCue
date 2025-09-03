@@ -129,7 +129,7 @@ function App() {
                   fontSize: "16px",
                 }}
               >
-                S
+                N
               </div>
               <span
                 style={{
