@@ -16,6 +16,15 @@ Users can create tasks through:
   </video>
 </p>
 
+## Screenshot
+
+<p align="center">
+  <img src="docs/screenshots/dashboard.png" alt="SmartCue Dashboard" width="100%" />
+  <br/>
+  <em>SmartCue Dashboard – Task overview and quick actions</em>
+  
+</p>
+
 ## Features
 
 ### Dual Task Creation
